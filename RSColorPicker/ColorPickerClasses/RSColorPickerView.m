@@ -403,6 +403,17 @@
     return newState;
 }
 
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    if (!self.cropToCircle) {
+        return [super pointInside:point withEvent:event];
+    }
+    
+    CGFloat X = point.x - CGRectGetMidX(self.bounds);
+    CGFloat Y = point.y - CGRectGetMidY(self.bounds);
+    CGFloat r = sqrt(pow(X, 2) + pow(Y, 2));
+    return [super pointInside:point withEvent:event] && r < self.paletteDiameter / 2;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 
     if (self.showLoupe) {
