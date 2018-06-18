@@ -132,6 +132,7 @@
     self.showLoupe = YES;
     self.opaque = YES;
     self.backgroundColor = [UIColor clearColor];
+    self.colorMode = RSColorModeFull;
 
     _colorPickerViewFlags.bitmapNeedsUpdate = NO;
 
@@ -222,7 +223,7 @@
 - (void)genBitmap {
     if (!_colorPickerViewFlags.bitmapNeedsUpdate) return;
 
-    self.rep = [self.class bitmapForDiameter:self.gradientLayer.bounds.size.width scale:self.scale padding:self.paddingDistance shouldCache:YES];
+    self.rep = [self.class bitmapForDiameter:self.gradientLayer.bounds.size.width scale:self.scale padding:self.paddingDistance colorMode:self.colorMode shouldCache:YES];
     _colorPickerViewFlags.bitmapNeedsUpdate = NO;
     self.gradientLayer.contents = (id)[RSUIImageWithScale(self.rep.image, self.scale) CGImage];
 }
@@ -297,6 +298,16 @@
 
 - (void)setSelectionColor:(UIColor *)selectionColor {
     state = [[RSColorPickerState alloc] initWithColor:selectionColor];
+    self.colorMode = state.colorMode;
+}
+
+- (void)setColorMode:(RSColorMode)colorMode {
+    _colorMode = colorMode;
+    _colorPickerViewFlags.bitmapNeedsUpdate = YES;
+    
+    [self genBitmap];
+    
+    state = [state stateBySettingColorMode:colorMode];
     [self handleStateChanged];
 }
 
@@ -398,7 +409,8 @@
 - (RSColorPickerState *)stateForPoint:(CGPoint)point {
     RSColorPickerState * newState = [RSColorPickerState stateForPoint:point
                                                                  size:self.paletteDiameter
-                                                              padding:self.paddingDistance];
+                                                              padding:self.paddingDistance
+                                                            colorMode:self.colorMode];
     newState = [[newState stateBySettingAlpha:self.opacity] stateBySettingBrightness:self.brightness];
     return newState;
 }
@@ -485,21 +497,21 @@ static dispatch_queue_t backgroundQueue;
 }
 
 + (void)prepareForDiameter:(CGFloat)diameter scale:(CGFloat)scale padding:(CGFloat)padding {
-    [self prepareForDiameter:diameter scale:scale padding:padding inBackground:YES];
+    [self prepareForDiameter:diameter scale:scale padding:padding colorMode:RSColorModeFull inBackground:YES];
 }
 
 #pragma mark Prep Method
 
-+ (void)prepareForDiameter:(CGFloat)diameter scale:(CGFloat)scale padding:(CGFloat)padding inBackground:(BOOL)bg {
++ (void)prepareForDiameter:(CGFloat)diameter scale:(CGFloat)scale padding:(CGFloat)padding colorMode:(RSColorMode)colorMode inBackground:(BOOL)bg {
     void (*function)(dispatch_queue_t, dispatch_block_t) = bg ? dispatch_async : dispatch_sync;
     function(backgroundQueue, ^{
-        [self bitmapForDiameter:diameter scale:scale padding:padding shouldCache:YES];
+        [self bitmapForDiameter:diameter scale:scale padding:padding colorMode:colorMode shouldCache:YES];
     });
 }
 
 #pragma mark Generate Helper Method
 
-+ (ANImageBitmapRep *)bitmapForDiameter:(CGFloat)diameter scale:(CGFloat)scale padding:(CGFloat)paddingDistance shouldCache:(BOOL)cache {
++ (ANImageBitmapRep *)bitmapForDiameter:(CGFloat)diameter scale:(CGFloat)scale padding:(CGFloat)paddingDistance colorMode:(RSColorMode)colorMode shouldCache:(BOOL)cache {
     RSGenerateOperation *repOp = nil;
 
     // Handle the scale here so the operation can just work with pixels directly
@@ -509,7 +521,7 @@ static dispatch_queue_t backgroundQueue;
     if (diameter <= 0) return nil;
 
     // Unique key for this size combo
-    NSString *dictionaryCacheKey = [NSString stringWithFormat:@"%.1f-%.1f", diameter, paddingDistance];
+    NSString *dictionaryCacheKey = [NSString stringWithFormat:@"%.1f-%.1f-%tu", diameter, paddingDistance, colorMode];
     // Check cache
     repOp = [generatedBitmaps objectForKey:dictionaryCacheKey];
 
@@ -520,7 +532,7 @@ static dispatch_queue_t backgroundQueue;
         return repOp.bitmap;
     }
 
-    repOp = [[RSGenerateOperation alloc] initWithDiameter:diameter andPadding:paddingDistance];
+    repOp = [[RSGenerateOperation alloc] initWithDiameter:diameter padding:paddingDistance colorMode:colorMode];
 
     if (cache) {
         [generatedBitmaps setObject:repOp forKey:dictionaryCacheKey cost:diameter];

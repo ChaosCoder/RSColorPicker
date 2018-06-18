@@ -11,6 +11,9 @@
 BMPixel RSPixelFromHSV(CGFloat H, CGFloat S, CGFloat V);
 void RSHSVFromPixel(BMPixel pixel, CGFloat *h, CGFloat *s, CGFloat *v);
 
+BMPixel RSWhitishPixelFromHSV(CGFloat H, CGFloat S, CGFloat V);
+BMPixel kelvinToRGB(CGFloat temp, CGFloat brightness);
+
 // four floats will be placed into `components`
 void RSGetComponentsForColor(CGFloat *components, UIColor *color);
 

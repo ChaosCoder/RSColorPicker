@@ -36,11 +36,11 @@
 		2B989DF318D61F760049D521 /* RSColorFunctionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B989DF218D61F760049D521 /* RSColorFunctionsTests.m */; };
 		2BF47AD318D4D44600C12FA5 /* RSColorPickerViewDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF47AD218D4D44600C12FA5 /* RSColorPickerViewDelegateTests.m */; };
 		2BF8BFF818E9B67600E7C5BF /* RSColorPickerStateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF8BFF718E9B67600E7C5BF /* RSColorPickerStateTests.m */; };
-		2BFBDBDA18D2574400DFC1E5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BFBDBD918D2574400DFC1E5 /* XCTest.framework */; };
 		2BFBDBDB18D2574400DFC1E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA35E6113F57B2700A6B347 /* Foundation.framework */; };
 		2BFBDBDC18D2574400DFC1E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FA35E5F13F57B2700A6B347 /* UIKit.framework */; };
 		2BFBDBE218D2574400DFC1E5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2BFBDBE018D2574400DFC1E5 /* InfoPlist.strings */; };
 		2BFBDBE418D2574400DFC1E5 /* RSColorPickerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFBDBE318D2574400DFC1E5 /* RSColorPickerViewTests.m */; };
+		7D1442AF20D7D83A00F7711F /* RSColorFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B85422C16EFC8970047FFBE /* RSColorFunctions.m */; };
 		930D5A8016DE4D36006C38D4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 930D5A7F16DE4D36006C38D4 /* Default-568h@2x.png */; };
 		94A10AFB1799B6A900F0BD7E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A10AFA1799B6A900F0BD7E /* Accelerate.framework */; };
 		94A10AFF179DB67C00F0BD7E /* RSGenerateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A10AFE179DB67C00F0BD7E /* RSGenerateOperation.m */; };
@@ -117,6 +117,7 @@
 		2BFBDBE118D2574400DFC1E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2BFBDBE318D2574400DFC1E5 /* RSColorPickerViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSColorPickerViewTests.m; sourceTree = "<group>"; };
 		2BFBDBE518D2574400DFC1E5 /* RSColorPickerTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RSColorPickerTests-Prefix.pch"; sourceTree = "<group>"; };
+		7D1442AC20D7D52400F7711F /* RSColorMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSColorMode.h; sourceTree = "<group>"; };
 		930D5A7F16DE4D36006C38D4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		94A10AFA1799B6A900F0BD7E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		94A10AFD179DB67C00F0BD7E /* RSGenerateOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSGenerateOperation.h; sourceTree = "<group>"; };
@@ -146,7 +147,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BFBDBDA18D2574400DFC1E5 /* XCTest.framework in Frameworks */,
 				2BFBDBDC18D2574400DFC1E5 /* UIKit.framework in Frameworks */,
 				2BFBDBDB18D2574400DFC1E5 /* Foundation.framework in Frameworks */,
 			);
@@ -231,6 +231,7 @@
 				2B85422C16EFC8970047FFBE /* RSColorFunctions.m */,
 				FAFF6E4A185F84BD00412D58 /* RSColorPickerState.h */,
 				FAFF6E4B185F84BD00412D58 /* RSColorPickerState.m */,
+				7D1442AC20D7D52400F7711F /* RSColorMode.h */,
 			);
 			path = ColorPickerClasses;
 			sourceTree = "<group>";
@@ -459,6 +460,7 @@
 				2BFBDBE418D2574400DFC1E5 /* RSColorPickerViewTests.m in Sources */,
 				2B989DF318D61F760049D521 /* RSColorFunctionsTests.m in Sources */,
 				2B78462918D298570002F859 /* CPTestCaseTests.m in Sources */,
+				7D1442AF20D7D83A00F7711F /* RSColorFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,7 +498,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -513,7 +515,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -589,11 +591,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSColorPickerTests/RSColorPickerTests-Prefix.pch";
@@ -608,7 +605,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "RSColorPickerTests/RSColorPickerTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -634,11 +631,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSColorPickerTests/RSColorPickerTests-Prefix.pch";
 				GCC_VERSION = "";
@@ -648,7 +640,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "RSColorPickerTests/RSColorPickerTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;

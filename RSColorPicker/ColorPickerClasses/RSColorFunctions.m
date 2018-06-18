@@ -7,6 +7,50 @@
 
 #import "RSColorFunctions.h"
 
+BMPixel RSWhitishPixelFromHSV(CGFloat H, CGFloat S, CGFloat V)
+{
+    CGFloat x = (sin(H * M_PI * 2) * S + 1) / 2;
+    CGFloat temperature = 1000 + x * (12000-1000);
+    return kelvinToRGB(temperature, 1.0);
+}
+
+BMPixel kelvinToRGB(CGFloat temp, CGFloat brightness) {
+    temp = temp / 100;
+    
+    CGFloat red, green, blue;
+    if (temp <= 66) {
+        red = 255;
+    } else {
+        red = temp - 60;
+        red = 329.698727466 * powf(red, -0.1332047592);
+    }
+    
+    if (temp <= 66) {
+        green = temp;
+        green = 99.4708025861 * logf(green) - 161.1195681661;
+    } else {
+        green = temp - 60;
+        green = 288.1221695283 * powf(green, -0.0755148492);
+    }
+    
+    if (temp >= 66) {
+        blue = 255;
+    } else {
+        if (temp <= 19) {
+            blue = 0;
+        } else {
+            blue = temp - 10;
+            blue = 138.5177312231 * logf(blue) - 305.0447927307;
+        }
+    }
+    
+    red = MAX(0, MIN(255, red)) * brightness;
+    green = MAX(0, MIN(255, green)) * brightness;
+    blue = MAX(0, MIN(255, blue)) * brightness;
+    
+    return BMPixelMake(red/255.0, green/255.0, blue/255.0, 1.0);
+}
+
 BMPixel RSPixelFromHSV(CGFloat H, CGFloat S, CGFloat V)
 {
     if (S == 0) {

@@ -78,7 +78,7 @@
     // Scaled relative point is *relative*, so 0,0 is the center, which should be white
 
     RSColorPickerState *state = [[RSColorPickerState alloc] initWithScaledRelativePoint:CGPointMake(0, 0)
-                                                                             brightness:1.0 alpha:1.0];
+                                                                             brightness:1.0 alpha:1.0 colorMode:RSColorModeFull];
     UIColor *expectedColor = [UIColor whiteColor];
     [self assertColor:expectedColor equalsColor:state.color];
 }
@@ -87,7 +87,7 @@
     // Regardless of padding, 100,100 is the center point of a 200px circle, which is white
     // Assumed that default is 100% brightness and 100% alpha
 
-    RSColorPickerState *state = [RSColorPickerState stateForPoint:CGPointMake(100, 100) size:200 padding:0];
+    RSColorPickerState *state = [RSColorPickerState stateForPoint:CGPointMake(100, 100) size:200 padding:0 colorMode:RSColorModeFull];
     UIColor *expectedColor = [UIColor whiteColor];
     [self assertColor:expectedColor equalsColor:state.color];
 }

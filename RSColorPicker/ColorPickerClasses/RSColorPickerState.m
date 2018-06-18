@@ -6,6 +6,7 @@
 //
 
 #import "RSColorPickerState.h"
+#import "RSColorFunctions.h"
 
 static CGFloat _calculateHue(CGPoint point);
 static CGFloat _calculateSaturation(CGPoint point);
@@ -13,7 +14,7 @@ static CGPoint _calculatePoint(CGFloat hue, CGFloat saturation);
 
 @implementation RSColorPickerState
 
-@synthesize brightness, alpha;
+@synthesize brightness, alpha, colorMode;
 
 - (CGFloat)hue {
     return _calculateHue(scaledRelativePoint);
@@ -24,17 +25,27 @@ static CGPoint _calculatePoint(CGFloat hue, CGFloat saturation);
 }
 
 - (UIColor *)color {
-    return [UIColor colorWithHue:self.hue saturation:self.saturation brightness:brightness alpha:alpha];
+    switch (colorMode) {
+        case RSColorModeFull:
+            return [UIColor colorWithHue:self.hue saturation:self.saturation brightness:brightness alpha:alpha];
+        case RSColorModeWhite:
+        {
+            CGFloat x = (sin(self.hue * M_PI * 2) * self.saturation + 1) / 2;
+            CGFloat temperature = 1000 + x * (12000-1000);
+            BMPixel pixel = kelvinToRGB(temperature, brightness);
+            return UIColorFromBMPixel(pixel);
+        }
+    }
 }
 
-+ (RSColorPickerState *)stateForPoint:(CGPoint)point size:(CGFloat)size padding:(CGFloat)padding {
++ (RSColorPickerState *)stateForPoint:(CGPoint)point size:(CGFloat)size padding:(CGFloat)padding colorMode:(RSColorMode)colorMode {
     // calculate everything we need to know
     CGPoint relativePoint = CGPointMake(point.x - (size / 2.0), (size / 2.0) - point.y);
     CGPoint scaledRelativePoint = relativePoint;
     scaledRelativePoint.x /= (size / 2.0) - padding;
     scaledRelativePoint.y /= (size / 2.0) - padding;
     return [[RSColorPickerState alloc] initWithScaledRelativePoint:scaledRelativePoint
-                                                        brightness:1 alpha:1];
+                                                        brightness:1 alpha:1 colorMode:colorMode];
 }
 
 - (id)initWithColor:(UIColor *)_selectionColor {
@@ -45,15 +56,17 @@ static CGPoint _calculatePoint(CGFloat hue, CGFloat saturation);
         CGFloat hue, saturation;
         [selectionColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
         scaledRelativePoint = _calculatePoint(hue, saturation);
+        colorMode = RSColorModeFull;
     }
     return self;
 }
 
-- (id)initWithScaledRelativePoint:(CGPoint)p brightness:(CGFloat)V alpha:(CGFloat)A {
+- (id)initWithScaledRelativePoint:(CGPoint)p brightness:(CGFloat)V alpha:(CGFloat)A colorMode:(RSColorMode)cM {
     if ((self = [super init])) {
         scaledRelativePoint = p;
         brightness = V;
         alpha = A;
+        colorMode = cM;
     }
     return self;
 }
@@ -63,6 +76,7 @@ static CGPoint _calculatePoint(CGFloat hue, CGFloat saturation);
         scaledRelativePoint = _calculatePoint(H, S);
         brightness = V;
         alpha = A;
+        colorMode = RSColorModeFull;
     }
     return self;
 }
@@ -77,21 +91,25 @@ static CGPoint _calculatePoint(CGFloat hue, CGFloat saturation);
 #pragma mark - Modification
 
 - (RSColorPickerState *)stateBySettingBrightness:(CGFloat)newBright {
-    return [[RSColorPickerState alloc] initWithScaledRelativePoint:scaledRelativePoint brightness:newBright alpha:alpha];
+    return [[RSColorPickerState alloc] initWithScaledRelativePoint:scaledRelativePoint brightness:newBright alpha:alpha colorMode:colorMode];
 }
 
 - (RSColorPickerState *)stateBySettingAlpha:(CGFloat)newAlpha {
-    return [[RSColorPickerState alloc] initWithScaledRelativePoint:scaledRelativePoint brightness:brightness alpha:newAlpha];
+    return [[RSColorPickerState alloc] initWithScaledRelativePoint:scaledRelativePoint brightness:brightness alpha:newAlpha colorMode:colorMode];
 }
 
 - (RSColorPickerState *)stateBySettingHue:(CGFloat)newHue {
     CGPoint newPoint = _calculatePoint(newHue, self.saturation);
-    return [[RSColorPickerState alloc] initWithScaledRelativePoint:newPoint brightness:brightness alpha:alpha];
+    return [[RSColorPickerState alloc] initWithScaledRelativePoint:newPoint brightness:brightness alpha:alpha colorMode:colorMode];
 }
 
 - (RSColorPickerState *)stateBySettingSaturation:(CGFloat)newSaturation {
     CGPoint newPoint = _calculatePoint(self.hue, newSaturation);
-    return [[RSColorPickerState alloc] initWithScaledRelativePoint:newPoint brightness:brightness alpha:alpha];
+    return [[RSColorPickerState alloc] initWithScaledRelativePoint:newPoint brightness:brightness alpha:alpha colorMode:colorMode];
+}
+
+- (RSColorPickerState *)stateBySettingColorMode:(RSColorMode)newColorMode {
+    return [[RSColorPickerState alloc] initWithScaledRelativePoint:scaledRelativePoint brightness:brightness alpha:alpha colorMode:newColorMode];
 }
 
 #pragma mark - Debugging

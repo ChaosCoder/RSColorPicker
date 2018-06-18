@@ -8,6 +8,7 @@
 #import "TestColorViewController.h"
 #import "RSBrightnessSlider.h"
 #import "RSOpacitySlider.h"
+#import "RSColorMode.h"
 
 @implementation TestColorViewController
 
@@ -45,7 +46,12 @@
 
     [self.view addSubview:_colorPicker];
 
-
+    // Color mode switch full (= on) & whitish (= off)
+    UISwitch *colorModeSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 300, 0, 0)];
+    [colorModeSwitch setOn:_colorPicker.colorMode == RSColorModeFull];
+    [colorModeSwitch addTarget:self action:@selector(colorModeSwitchAction:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:colorModeSwitch];
+    
     // On/off circle or square
     UISwitch *circleSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 340, 0, 0)];
     [circleSwitch setOn:_colorPicker.cropToCircle];
@@ -203,6 +209,10 @@
 
 - (void)circleSwitchAction:(UISwitch *)s {
     _colorPicker.cropToCircle = s.isOn;
+}
+
+- (void)colorModeSwitchAction:(UISwitch *)s {
+    _colorPicker.colorMode = s.isOn ? RSColorModeFull : RSColorModeWhite;
 }
 
 #pragma mark - Push the stack

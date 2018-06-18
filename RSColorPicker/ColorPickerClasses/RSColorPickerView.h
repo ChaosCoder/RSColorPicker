@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
 
+typedef NS_ENUM(NSUInteger, RSColorMode);
 @class RSColorPickerView, BGRSLoupeLayer;
 
 @protocol RSColorPickerViewDelegate <NSObject>
@@ -29,6 +30,11 @@ IB_DESIGNABLE
  * Specifies if the color picker should be drawn as a circle, or as a square.
  */
 @property (nonatomic) IBInspectable BOOL cropToCircle;
+
+/**
+ * Specifies color mode (full or whitish).
+ */
+@property (nonatomic) RSColorMode colorMode;
 
 /**
  * The brightness of the current selection
@@ -82,5 +88,5 @@ IB_DESIGNABLE
 + (void)prepareForDiameter:(CGFloat)diameter padding:(CGFloat)padding;
 + (void)prepareForDiameter:(CGFloat)diameter scale:(CGFloat)scale;
 + (void)prepareForDiameter:(CGFloat)diameter scale:(CGFloat)scale padding:(CGFloat)padding;
-+ (void)prepareForDiameter:(CGFloat)diameter scale:(CGFloat)scale padding:(CGFloat)padding inBackground:(BOOL)bg;
++ (void)prepareForDiameter:(CGFloat)diameter scale:(CGFloat)scale padding:(CGFloat)padding colorMode:(RSColorMode)colorMode inBackground:(BOOL)bg;
 @end

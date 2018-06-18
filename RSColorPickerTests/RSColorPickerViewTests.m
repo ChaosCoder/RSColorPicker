@@ -147,7 +147,7 @@
 
     // Fetch current state/selection
     CGPoint oldSelection = self.colorPicker.selection;
-    RSColorPickerState *oldState = [RSColorPickerState stateForPoint:oldSelection size:size padding:padding];
+    RSColorPickerState *oldState = [RSColorPickerState stateForPoint:oldSelection size:size padding:padding colorMode:RSColorModeFull];
     UIColor *oldColor = oldState.color;
 
     // Get new state/selection
@@ -181,12 +181,12 @@
 
     // Fetch current state/selection
     CGPoint oldSelection = self.colorPicker.selection;
-    RSColorPickerState *oldState = [RSColorPickerState stateForPoint:oldSelection size:size padding:padding];
+    RSColorPickerState *oldState = [RSColorPickerState stateForPoint:oldSelection size:size padding:padding colorMode:RSColorModeFull];
     UIColor *oldColor = oldState.color;
 
     // Get new state/selection
     CGPoint newSelection = CGPointMake(100.0, 100.0);
-    RSColorPickerState *newState = [RSColorPickerState stateForPoint:newSelection size:size padding:padding];
+    RSColorPickerState *newState = [RSColorPickerState stateForPoint:newSelection size:size padding:padding colorMode:RSColorModeFull];
     UIColor *newColor = newState.color;
 
     // Actually set it

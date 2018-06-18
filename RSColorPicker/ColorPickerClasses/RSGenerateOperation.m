@@ -11,10 +11,11 @@
 
 @implementation RSGenerateOperation
 
-- (id)initWithDiameter:(CGFloat)diameter andPadding:(CGFloat)padding {
+- (id)initWithDiameter:(CGFloat)diameter padding:(CGFloat)padding colorMode:(RSColorMode)colorMode {
     if ((self = [self init])) {
         _diameter = diameter;
         _padding = padding;
+        _colorMode = colorMode;
     }
     return self;
 }
@@ -70,7 +71,17 @@
             if (angle < 0.0) angle = (2.0 * M_PI) + angle;
 
             CGFloat perc_angle = angle / (2.0 * M_PI);
-            BMPixel thisPixel = RSPixelFromHSV(perc_angle, r_distance/relRadius, 1); // full brightness
+            
+            BMPixel thisPixel;
+            switch (_colorMode) {
+                case RSColorModeFull:
+                    thisPixel = RSPixelFromHSV(perc_angle, r_distance/relRadius, 1);
+                    break;
+                case RSColorModeWhite:
+                    thisPixel = RSWhitishPixelFromHSV(perc_angle, r_distance/relRadius, 1);
+                    break;
+            }
+            
             [rep setPixel:thisPixel atPoint:BMPointMake(x, y)];
 
             i++;

@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSColorFunctions.h"
+#import "RSColorMode.h"
 
 /**
  * Represents the state of a color picker. This includes
@@ -22,15 +22,17 @@
     CGPoint scaledRelativePoint; // H & S
     CGFloat brightness; // V
     CGFloat alpha; // A
+    RSColorMode colorMode;
 }
 
 @property (readonly) CGFloat hue, saturation, brightness, alpha;
+@property (readonly) RSColorMode colorMode;
 
 /**
  * Creates a state with a 1.0 alpha and 1.0 brightness that would arise
  * by selecting `point` on a color picker of diameter `size` and padding `padding`.
  */
-+ (RSColorPickerState *)stateForPoint:(CGPoint)point size:(CGFloat)size padding:(CGFloat)padding;
++ (RSColorPickerState *)stateForPoint:(CGPoint)point size:(CGFloat)size padding:(CGFloat)padding colorMode:(RSColorMode)colorMode;
 
 /**
  * Create a state with a given color.
@@ -40,7 +42,7 @@
 /**
  * Create a state given a point on the unit circle and brightness+alpha
  */
-- (id)initWithScaledRelativePoint:(CGPoint)p brightness:(CGFloat)V alpha:(CGFloat)A;
+- (id)initWithScaledRelativePoint:(CGPoint)p brightness:(CGFloat)V alpha:(CGFloat)A colorMode:(RSColorMode)colorMode;
 
 /**
  * Create a state given HSVA components.
@@ -61,5 +63,6 @@
 - (RSColorPickerState *)stateBySettingAlpha:(CGFloat)newAlpha;
 - (RSColorPickerState *)stateBySettingHue:(CGFloat)newHue;
 - (RSColorPickerState *)stateBySettingSaturation:(CGFloat)newSaturation;
+- (RSColorPickerState *)stateBySettingColorMode:(RSColorMode)newColorMode;
 
 @end

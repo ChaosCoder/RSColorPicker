@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
   s.frameworks   = 'QuartzCore', 'CoreGraphics', 'UIKit', 'Accelerate'
   s.requires_arc = true
 
-  s.public_header_files = "RSColorPicker/ColorPickerClasses/RSColorPickerView.h"
+  s.public_header_files = "RSColorPicker/ColorPickerClasses/RSColorPickerView.h", "RSColorPicker/ColorPickerClasses/RSColorMode.h"
 end
