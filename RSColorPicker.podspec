@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "RSColorPicker"
-  s.version      = "0.10.0"
+  s.version      = "0.10.1"
   s.summary      = "iOS color picker view"
   s.description  = "iOS color picker view with brightness control, opacity control, and delegation support."
   s.homepage     = "https://github.com/ChaosCoder/RSColorPicker"

@@ -298,7 +298,12 @@
 
 - (void)setSelectionColor:(UIColor *)selectionColor {
     state = [[RSColorPickerState alloc] initWithColor:selectionColor];
-    self.colorMode = state.colorMode;
+    
+    if (self.colorMode != state.colorMode) {
+        self.colorMode = state.colorMode;
+    } else {
+        [self handleStateChanged];
+    }
 }
 
 - (void)setColorMode:(RSColorMode)colorMode {
@@ -440,13 +445,12 @@
         [self.loupeLayer disappear];
 	}
 
-    CGPoint point = [touches.anyObject locationInView:self];
-    [self updateStateForTouchPoint:point];
-
     if ([self.delegate respondsToSelector:@selector(colorPicker:touchesBegan:withEvent:)]) {
         [self.delegate colorPicker:self touchesBegan:touches withEvent:event];
     }
-
+    
+    CGPoint point = [touches.anyObject locationInView:self];
+    [self updateStateForTouchPoint:point];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
