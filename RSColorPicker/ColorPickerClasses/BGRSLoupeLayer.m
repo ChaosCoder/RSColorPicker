@@ -31,7 +31,7 @@
 #import "BGRSLoupeLayer.h"
 #import "RSColorPickerView.h"
 
-@interface BGRSLoupeLayer ()
+@interface BGRSLoupeLayer () <CAAnimationDelegate>
 
 @property (nonatomic) struct CGPath *gridCirclePath;
 
