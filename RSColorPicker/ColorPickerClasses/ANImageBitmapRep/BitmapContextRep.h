@@ -44,7 +44,7 @@ BMPoint BMPointFromPoint (CGPoint point);
 
 /**
  * Creates a bitmap context with the information from a CGImageRef.
- * @param image The image to use for initialization. The reference will
+ * @param img The image to use for initialization. The reference will
  * not be consumed, so you will still need to CGImageRelease() this as expected.
  */
 - (id)initWithCGImage:(CGImageRef)img;
@@ -77,7 +77,7 @@ BMPoint BMPointFromPoint (CGPoint point);
  * Tells the BitmapContext that a new image should be generated when
  * one is requested because the internal context has been externally
  * modified.
- * @param needsUpdate This should almost always be YES.  If this is no,
+ * @param flag This should almost always be YES.  If this is no,
  * a new CGImageRef will not be generated when one is requested.
  */
 - (void)setNeedsUpdate:(BOOL)flag;
